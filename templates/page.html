@@ -1,0 +1,145 @@
+<!-- wp:template-part {"slug":"header","tagName":"header","area":"header"} /-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Quiz</title>
+    <style>
+        /* CSS intégré */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        #quiz-container, .message {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .single-question p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Conteneur principal -->
+    <div id="main-container"></div>
+
+    <script>
+        // JavaScript pour gérer la condition d'affichage
+        document.addEventListener('DOMContentLoaded', () => {
+            const showQuiz = true; // Simulez ici la condition backend
+
+            const mainContainer = document.getElementById('main-container');
+
+            if (showQuiz) {
+                // Afficher le quiz si la condition est remplie
+                mainContainer.innerHTML = `
+                    <div id="quiz-container">
+                        <form id="quiz-form">
+                            <div class="single-question">
+                                <p><strong>Sachant que l'océan joue un rôle crucial dans la régulation du climat en absorbant le CO₂, comment la pollution océanique affecte-t-elle cette capacité d'absorption ?</strong></p>
+                                <label>
+                                    <input type="radio" name="quiz_answer" value="0">
+                                    La pollution plastique réduit la capacité de l'océan à absorber le CO₂ car les microplastiques perturbent le phytoplancton.
+                                </label><br>
+                                <label>
+                                    <input type="radio" name="quiz_answer" value="1">
+                                    Les polluants chimiques interfèrent avec les processus biologiques marins liés à la capture du carbone.
+                                </label><br>
+                                <label>
+                                    <input type="radio" name="quiz_answer" value="2">
+                                    L'augmentation de la température de l'eau due au réchauffement climatique, aggravé par la pollution, affecte l'absorption du CO₂.
+                                </label><br>
+                                <label>
+                                    <input type="radio" name="quiz_answer" value="3">
+                                    La dégradation des écosystèmes marins réduit leur capacité à séquestrer le carbone.
+                                </label><br>
+                                <label>
+                                    <input type="radio" name="quiz_answer" value="4">
+                                    L'acidification des océans, exacerbée par la pollution, affecte la formation des coquilles et squelettes marins, impactant le cycle du carbone.
+                                </label><br>
+                            </div>
+                            <button type="button" id="submit-quiz">Valider ma réponse</button>
+                        </form>
+                        <div id="result" class="hidden"></div>
+                    </div>
+                `;
+
+                // Gestionnaire de soumission du quiz
+                const form = document.getElementById('quiz-form');
+                const resultDiv = document.getElementById('result');
+                const submitButton = document.getElementById('submit-quiz');
+
+                submitButton.addEventListener('click', () => {
+                    const selectedAnswer = form.quiz_answer.value;
+
+                    if (!selectedAnswer) {
+                        resultDiv.textContent = "Veuillez sélectionner une réponse.";
+                    } else {
+                        // Messages en fonction des réponses
+                        const messages = [
+                            "Bonne analyse : les microplastiques perturbent effectivement le phytoplancton.",
+                            "Correct ! Les polluants chimiques ont un impact direct.",
+                            "Exact : la température de l'eau influence l'absorption du CO₂.",
+                            "Oui, la dégradation des écosystèmes marins diminue leur capacité de séquestration.",
+                            "C'est vrai : l'acidification impacte le cycle du carbone."
+                        ];
+
+                        resultDiv.textContent = `Vous avez sélectionné : ${messages[selectedAnswer]}`;
+                    }
+
+                    resultDiv.classList.remove('hidden');
+                });
+            } else {
+                // Afficher un message si le quiz n'est pas activé
+                mainContainer.innerHTML = `
+                    <div class="message">
+                        <p>Le quiz n'est pas disponible pour le moment. Merci de revenir plus tard.</p>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
